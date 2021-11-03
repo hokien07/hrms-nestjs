@@ -10,6 +10,8 @@ import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { ThrottlerModule } from '@nestjs/throttler';
 
+import { AppController } from './app.controller'
+
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -35,5 +37,6 @@ import { ThrottlerModule } from '@nestjs/throttler';
     AuthModule,
     UsersModule,
   ],
+  controllers: [AppController],
 })
 export class AppModule {}
