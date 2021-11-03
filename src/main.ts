@@ -1,5 +1,6 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
+import * as helmet from 'helmet';
 import {
   FastifyAdapter,
   NestFastifyApplication,
@@ -8,8 +9,10 @@ import {
 async function main() {
   const app = await NestFactory.create<NestFastifyApplication>(
     AppModule,
-    new FastifyAdapter({ logger: true }),
+    new FastifyAdapter({ logger: false }),
   );
+  app.enableCors();
+  app.use(helmet());
   await app.listen(process.env.PORT || 3000);
 }
 main();
