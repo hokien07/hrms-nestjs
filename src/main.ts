@@ -10,6 +10,6 @@ async function main() {
     AppModule,
     new FastifyAdapter({ logger: true }),
   );
-  await app.listen(3000);
+  await app.listen(process.env.PORT || 3000);
 }
 main();
