@@ -11,6 +11,7 @@ import { UsersModule } from './users/users.module';
 import { ThrottlerModule } from '@nestjs/throttler';
 
 import { AppController } from './app.controller'
+import { CaslModule } from './casl/casl.module';
 
 @Module({
   imports: [
@@ -36,6 +37,7 @@ import { AppController } from './app.controller'
     EmployeesModule,
     AuthModule,
     UsersModule,
+    CaslModule,
   ],
   controllers: [AppController],
 })
