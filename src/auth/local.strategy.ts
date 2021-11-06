@@ -9,17 +9,19 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
   constructor(private service: AuthService, private moduleRef: ModuleRef) {
     super({
       passReqToCallback: true,
+      usernameField: 'email',
+      passwordField: 'password',
     });
   }
 
   async validate(
     request: Request,
-    username: string,
+    email: string,
     password: string,
   ): Promise<any> {
     const contextId = ContextIdFactory.getByRequest(request);
     this.service = await this.moduleRef.resolve(AuthService, contextId);
-    const user = await this.service.validateUser(username, password);
+    const user = await this.service.validateUser(email, password);
     if (!user) {
       throw new UnauthorizedException();
     }

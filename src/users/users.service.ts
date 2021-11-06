@@ -1,23 +1,29 @@
-import { Injectable } from '@nestjs/common';
+/* eslint-disable */
 
-export type User = any;
+import { Injectable } from '@nestjs/common';
+import { InjectModel } from '@nestjs/sequelize';
+import { User } from '../../models/user.model';
 
 @Injectable()
 export class UsersService {
-  private readonly users = [
-    {
-      userId: 1,
-      username: 'john',
-      password: 'changeme',
-    },
-    {
-      userId: 2,
-      username: 'maria',
-      password: 'guess',
-    },
-  ];
+  constructor(@InjectModel(User) private userModel : typeof User) {}
 
-  async findOne(username: string): Promise<User | undefined> {
-    return this.users.find((user) => user.username === username);
+  async findAll() : Promise<User[]> {
+    return this.userModel.findAll();
+  }
+
+  async finById(id: string) : Promise<User | null> {
+    return this.userModel.findOne({where: {id}});
+  }
+
+  async remove (id: string) : Promise<void> {
+    const user = await this.finById(id);
+    if(user) {
+      await user.destroy();
+    }
+  }
+  async findByEmail(email: string): Promise<User | null> {
+    const user =  this.userModel.findOne({where:{ email: email }});
+    return user;
   }
 }

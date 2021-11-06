@@ -10,8 +10,10 @@ import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { ThrottlerModule } from '@nestjs/throttler';
 
-import { AppController } from './app.controller'
+import { AppController } from './app.controller';
 import { CaslModule } from './casl/casl.module';
+
+import { User } from '../models/user.model';
 
 @Module({
   imports: [
@@ -27,7 +29,7 @@ import { CaslModule } from './casl/casl.module';
       username: process.env.DATABASE_USER,
       password: process.env.DATABASE_PASSWORD,
       database: process.env.DATABASE_NAME,
-      models: [__dirname + 'models'],
+      models: [User],
     }),
     ThrottlerModule.forRoot({
       ttl: 60,
