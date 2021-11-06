@@ -5,6 +5,7 @@ import * as cookieParser from 'cookie-parser';
 import compression from 'fastify-compress';
 import { sessionConfig } from '../config/session.config';
 import secureSession from 'fastify-secure-session';
+import { join } from 'path';
 
 import {
   FastifyAdapter,
@@ -23,6 +24,16 @@ async function main() {
   app.useGlobalPipes(new ValidationPipe());
   await app.register(secureSession, sessionConfig);
   await app.register(compression, { encodings: ['gzip', 'deflate'] });
+  app.useStaticAssets({
+    root: join(__dirname, '../..', 'public'),
+    prefix: '/public/',
+  });
+  app.setViewEngine({
+    engine: {
+      handlebars: require('handlebars'),
+    },
+    templates: join(__dirname, '../..', 'views'),
+  });
   await app.listen(process.env.PORT || 3000);
 }
 main();
